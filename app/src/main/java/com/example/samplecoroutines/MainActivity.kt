@@ -15,32 +15,21 @@ import com.example.samplecoroutines.ui.theme.SampleCoroutinesTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            SampleCoroutinesTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+
+        val thread = Thread {
+            // currentThread()は、スレッドの名前、優先度、スレッドグループを
+            // 返す文字列表現に変換されたThreadインスタンスを返す
+            println("${Thread.currentThread()} has run.")
         }
-    }
-}
+        thread.start()
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SampleCoroutinesTheme {
-        Greeting("Android")
+        val states = arrayOf("Starting", "Doing Task 1", "Doing Task 2", "Ending")
+        Thread {
+            println("${Thread.currentThread()} has started")
+            for (i in states) {
+                println("${Thread.currentThread()} - $i")
+                Thread.sleep(50)
+            }
+        }.start()
     }
 }
