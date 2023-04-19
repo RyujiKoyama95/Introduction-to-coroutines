@@ -2,15 +2,9 @@ package com.example.samplecoroutines
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.samplecoroutines.ui.theme.SampleCoroutinesTheme
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,13 +17,14 @@ class MainActivity : ComponentActivity() {
         }
         thread.start()
 
+        // コルーチンを使用
         val states = arrayOf("Starting", "Doing Task 1", "Doing Task 2", "Ending")
-        Thread {
+        GlobalScope.launch {
             println("${Thread.currentThread()} has started")
             for (i in states) {
                 println("${Thread.currentThread()} - $i")
-                Thread.sleep(50)
+                delay(5000)
             }
-        }.start()
+        }
     }
 }
